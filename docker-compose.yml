@@ -1,0 +1,25 @@
+version: "3"
+services:
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - 'mongo:/data/db'
+  
+  bot:
+    build: .
+    depends_on:
+      - 'mongo'
+    volumes:
+      - ./:/app
+      - /app/node_modules/
+    environment:
+      - PORT=9000
+    ports:
+      - "9000:9000"
+    links:
+      - mongo
+
+volumes:
+  mongo:
