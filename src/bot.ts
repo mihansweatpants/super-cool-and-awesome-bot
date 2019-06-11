@@ -1,28 +1,18 @@
-import * as TelegramBot from 'node-telegram-bot-api';
-import * as fs from 'fs';
-import * as path from 'path';
+import TelegramBot from 'node-telegram-bot-api';
 
-export function setupBot() {
-  const token = process.env.BOT_TOKEN;
-  let bot;
+const isDev = process.env.NODE_ENV = 'development';
+const isProd = !isDev;
 
-  if (process.env.NODE_ENV === 'production') {
-    bot = new TelegramBot(token);
-    bot.setWebHook(process.env.HEROKU_URL + token);
-  } else {
-    bot = new TelegramBot(token, { polling: true });
-  }
+const token = process.env.BOT_TOKEN!;
 
-  const features = fs
-    .readdirSync(path.resolve('src/features'))
-    .map(folder => [require(`./features/${folder}`).default, folder]);
+let bot: TelegramBot;
 
-  for (let [feature, name] of features) {
-    console.log(`=== Using ${name} ===`);
-    feature.useBot(bot);
-  }
-
-  return bot;
+if (isProd) {
+  // TODO: add webhook for prod
+  bot = new TelegramBot(token);
+  bot.setWebHook(process.env.BOT_WEBHOOK_URL + token);
+} else {
+  bot = new TelegramBot(token, { polling: true });
 }
 
-export default setupBot();
+export default bot;

@@ -1,7 +1,4 @@
-dist
-node_modules
+.vscode
 build
-dist
-test-db
-coverage
+node_modules
 .env
