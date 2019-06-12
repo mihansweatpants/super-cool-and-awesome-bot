@@ -6,6 +6,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 
 import bot, { bootstrapModules } from '~/bot';
+import { wakeUpDyno } from '~/utils';
 
 async function connectToMongo() {
   try {
@@ -27,6 +28,10 @@ async function connectToMongo() {
   });
 
   bootstrapModules();
+
+  if (process.env.HEROKU_URL) {
+    wakeUpDyno();
+  }
 
   const port = process.env.APP_PORT;
   const server = app.listen(port, () => console.log(`🤖 Started bot on http://localhost:${port}`));
