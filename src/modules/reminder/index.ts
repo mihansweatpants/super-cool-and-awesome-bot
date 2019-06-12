@@ -1,14 +1,25 @@
-import bot from '~/bot';
-import { Message } from 'node-telegram-bot-api';
+import { DateTime } from 'luxon';
+
+import bot, { reply } from '~/bot';
 
 import { getReminderDate } from './date';
+import { schedule } from './schedule';
 
-// TODO: move somewhere else
-function reply({ chat: { id } }: Message, text: string) {
-  bot.sendMessage(id, text);
-}
+const invalidTimeAnswer = 'Попробуй выбрать другую дату (например, чуть позже)';
+const genericErrorAnswer = 'Что-то пошло не так, попобуй заново';
 
-bot.onText(/напомни/i, (msg) => {
-  getReminderDate(msg.text!);
-  reply(msg, 'poshel nahui');
+bot.onText(/напомни/i, async (message) => {
+  try {
+    const date = getReminderDate(message.text!);
+
+    if (date < DateTime.local()) {
+      reply(message, invalidTimeAnswer);
+      return;
+    }
+
+    // console.log(date);
+    await schedule({ date, message });
+  } catch {
+    reply(message, genericErrorAnswer);
+  }
 });
