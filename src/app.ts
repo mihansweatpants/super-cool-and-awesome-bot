@@ -33,7 +33,7 @@ async function connectToMongo() {
     wakeUpDyno();
   }
 
-  const port = process.env.APP_PORT;
+  const port = process.env.PORT;
   const server = app.listen(port, () => console.log(`🤖 Started bot on http://localhost:${port}`));
   server.on('close', () => mongoose.connection.close());
 })();
