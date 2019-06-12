@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import express from 'express';
 import bodyParser from 'body-parser';
 
-import bot from '~/bot';
+import bot, { bootstrapModules } from '~/bot';
 
 async function connectToMongo() {
   try {
@@ -25,6 +25,8 @@ async function connectToMongo() {
     bot.processUpdate(req.body);
     res.sendStatus(200);
   });
+
+  bootstrapModules();
 
   const port = process.env.APP_PORT;
   const server = app.listen(port, () => console.log(`🤖 Started bot on http://localhost:${port}`));
