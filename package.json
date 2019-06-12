@@ -37,7 +37,8 @@
     "dev": "concurrently -n=ts-node,tslint -c=blue,red \"nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/app.ts\" \"yarn lint\" ",
     "tslint": "tslint -c tslint.json -p tsconfig.json --force",
     "lint": "yarn tslint && onchange 'src/**/*.*' -- yarn tslint",
-    "test": "jest"
+    "test": "jest",
+    "start": "node build/app.js"
   },
   "_moduleAliases": {
     "~": "src"
