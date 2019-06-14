@@ -1,3 +1,7 @@
 # Super cool and awesome bot (not really)
 
-This thing can (or should at least) send me reminders and my university timetable
+This thing can 
+ * Send me reminders ✅
+
+TODO:
+ * Send me my university timetable
