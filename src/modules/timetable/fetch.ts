@@ -1,18 +1,6 @@
 import { DateTime, DurationObject } from 'luxon';
 
-type WeekDay = 'понедельник' | 'вторник' | 'среда' | 'четверг' | 'пятница' | 'суббота';
-
-interface UniversityClass {
-  time: string;
-  subject: string;
-}
-
-interface Timetable {
-  weekNumber: number;
-  schedule: {
-    [key in WeekDay]?: UniversityClass[];
-  };
-}
+import { Timetable } from './types';
 
 let cache: {
   expires: DateTime;
@@ -22,8 +10,9 @@ let cache: {
 const cacheLifetime: DurationObject = { hours: 3 };
 
 async function fetchTimetable(): Promise<Timetable> {
+  // TODO: actually fetch
   const timetable = {
-    weekNumber: 43,
+    week: 'неделя 43',
     schedule: {
       понедельник: [{ time: '10:00', subject: 'Какая-то хуйня' }, { time: '11:50', subject: 'Еще какая-то хуйня' }],
       вторник: [{ time: '10:00', subject: 'Какая-то хуйня' }],

@@ -1,8 +1,10 @@
 import { Message } from 'node-telegram-bot-api';
 
 import bot, { reply } from '~/bot';
+
 import { getTimetable } from './fetch';
-import { isTimetableCallback, makeTimetableCallback } from './callbackQuery';
+import { formatTimetableResponse } from './format';
+import { isTimetableCallback, makeTimetableCallback, parseTimetableCallback } from './callbackQuery';
 
 const timetableCommand = /^пары/i;
 
@@ -17,19 +19,24 @@ bot.on('callback_query', async (query) => {
     return;
   }
 
-  const { weekNumber, schedule } = await getTimetable();
+  const { message } = query;
 
-  console.log(weekNumber, schedule);
+  const { week, schedule } = await getTimetable();
+  const day = parseTimetableCallback(query.data!);
+
+  reply(message!, formatTimetableResponse({ week, day, classes: schedule[day] }));
 });
 
-function replyWithOptions(message: Message) {
+async function replyWithOptions(message: Message) {
+  const { schedule } = await getTimetable();
+
+  const keyboard = Object.keys(schedule).map(day => [
+    { text: day, callback_data: makeTimetableCallback(day) },
+  ]);
+
   reply(message, 'Выбери день', {
     reply_markup: {
-      inline_keyboard: [
-        [{ text: 'test', callback_data: makeTimetableCallback('test_1') }],
-        [{ text: 'test', callback_data: makeTimetableCallback('test_2') }],
-        [{ text: 'test', callback_data: makeTimetableCallback('test_3') }],
-      ],
+      inline_keyboard: keyboard,
     },
   });
 }
