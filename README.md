@@ -2,6 +2,7 @@
 
 This thing can 
  * Send me reminders ✅
+ * Send me my university timetable ✅
 
 TODO:
- * Send me my university timetable
+ * i dunno ¯\\_(ツ)_/¯
