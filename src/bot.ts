@@ -1,4 +1,4 @@
-import TelegramBot, { Message } from 'node-telegram-bot-api';
+import TelegramBot, { Message, SendMessageOptions } from 'node-telegram-bot-api';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -23,8 +23,8 @@ export function bootstrapModules() {
   fs.readdirSync(modulesDir).map(entry => require(`${modulesDir}/${entry}`));
 }
 
-export async function reply({ chat: { id } }: Message, text: string) {
-  return await bot.sendMessage(id, text);
+export async function reply({ chat: { id } }: Message, text: string, options?: SendMessageOptions) {
+  return await bot.sendMessage(id, text, options);
 }
 
 export async function forward({ chat, from, message_id }: Message) {
