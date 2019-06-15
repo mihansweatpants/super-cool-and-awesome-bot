@@ -1,6 +1,18 @@
 import { DateTime, DurationObject } from 'luxon';
+import fetch from 'node-fetch';
+import { JSDOM } from 'jsdom';
 
 import { Timetable } from './types';
+
+export const weekDays = [
+  'понедельник',
+  'вторник',
+  'среда',
+  'четверг',
+  'пятница',
+  'суббота',
+  'воскресенье',
+];
 
 let cache: {
   expires: DateTime;
@@ -10,14 +22,36 @@ let cache: {
 const cacheLifetime: DurationObject = { hours: 3 };
 
 async function fetchTimetable(): Promise<Timetable> {
-  // TODO: actually fetch
-  const timetable = {
-    week: 'неделя 43',
-    schedule: {
-      понедельник: [{ time: '10:00', subject: 'Какая-то хуйня' }, { time: '11:50', subject: 'Еще какая-то хуйня' }],
-      вторник: [{ time: '10:00', subject: 'Какая-то хуйня' }],
-    },
+  const response = await fetch(encodeURI(process.env.TIMETABLE_URL!));
+  const html = await response.text();
+
+  const { window: { document } } = new JSDOM(html);
+
+  const tableRows = Array.from(document.querySelectorAll('tr'));
+  const scrapped = tableRows.map(({ cells }) => {
+    const [time, subject] = Array.from(cells);
+
+    return { time: time.textContent!, subject: subject.textContent! };
+  });
+
+  const timetable: Timetable = {
+    week: scrapped[0].time!,
+    schedule: {},
   };
+
+  // TODO: something better than this
+  let day: string;
+  scrapped.forEach((item) => {
+    const isWeekDayTimetableRow = weekDays.includes(item.subject!.split(',')[0]);
+
+    // Some rows contain name of day instead of subject name
+    if (isWeekDayTimetableRow) {
+      day = item.subject!;
+      timetable.schedule[day] = [];
+    } else if (item.subject.length > 0) {
+      timetable.schedule[day].push(item);
+    }
+  });
 
   return timetable;
 }
