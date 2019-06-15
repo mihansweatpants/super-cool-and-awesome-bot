@@ -1,3 +1,3 @@
 describe('reminder', () => {
-  test('FIXME', () => {});
+  test.todo('Tests for reminders scheduler');
 });

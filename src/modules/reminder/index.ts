@@ -9,9 +9,11 @@ const invalidTimeAnswer = 'Попробуй выбрать другую дату
 const genericErrorAnswer = 'Что-то пошло не так, попобуй заново';
 const successAnswer = 'ок';
 
+const reminderCommand = /^напомни/i;
+
 checkForPendingReminders();
 
-bot.onText(/напомни/i, async (message) => {
+bot.onText(reminderCommand, async (message) => {
   try {
     const date = getReminderDate(message.text!);
 
