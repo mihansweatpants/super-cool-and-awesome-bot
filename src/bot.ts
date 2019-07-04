@@ -8,7 +8,6 @@ const token = process.env.BOT_TOKEN!;
 let bot: TelegramBot;
 
 if (!isDev) {
-  // TODO: add webhook for prod
   bot = new TelegramBot(token);
   bot.setWebHook(process.env.BOT_WEBHOOK_URL + token);
 } else {
