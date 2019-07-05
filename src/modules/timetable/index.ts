@@ -28,6 +28,8 @@ bot.on('callback_query', async (query) => {
 });
 
 async function replyWithOptions(message: Message) {
+  bot.sendChatAction(message.chat.id, 'typing');
+
   const { schedule } = await getTimetable();
 
   const keyboard = Object.keys(schedule).map(day => [
