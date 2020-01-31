@@ -2,7 +2,7 @@ import { DateTime } from 'luxon';
 
 import bot, { reply } from '~/bot';
 
-import { getReminderDate } from './date';
+import { parseReminderDate } from './date';
 import { schedule, checkForPendingReminders } from './schedule';
 
 const invalidTimeAnswer = 'Попробуй выбрать другую дату (например, чуть позже)';
@@ -15,7 +15,7 @@ checkForPendingReminders();
 
 bot.onText(reminderCommand, async (message) => {
   try {
-    const date = getReminderDate(message.text!);
+    const date = parseReminderDate(message.text!);
 
     if (date < DateTime.local()) {
       reply(message, invalidTimeAnswer);

@@ -2,7 +2,7 @@ import { Message } from 'node-telegram-bot-api';
 
 import bot, { reply } from '~/bot';
 
-import { getTimetable } from './fetch';
+import { getTimetable } from './scrape';
 import { formatTimetableResponse } from './format';
 import { isTimetableCallback, makeTimetableCallback, parseTimetableCallback } from './callbackQuery';
 
@@ -21,10 +21,10 @@ bot.on('callback_query', async (query) => {
 
   const { message } = query;
 
-  const { week, schedule } = await getTimetable();
+  const { weekNum, schedule } = await getTimetable();
   const day = parseTimetableCallback(query.data!);
 
-  reply(message!, formatTimetableResponse({ week, day, classes: schedule[day] }));
+  reply(message!, formatTimetableResponse({ weekNum, day, classes: schedule[day] }));
 });
 
 async function replyWithOptions(message: Message) {
