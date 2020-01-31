@@ -4,8 +4,8 @@ export interface UniversityClass {
 }
 
 export interface Timetable {
-  week: string;
+  weekNum: number;
   schedule: {
-    [key in string]: UniversityClass[];
+    [key: string]: UniversityClass[];
   };
 }

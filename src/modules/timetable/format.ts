@@ -3,17 +3,17 @@ import { UniversityClass } from './types';
 interface FormatParams {
   day: string;
   classes: UniversityClass[];
-  week: string;
+  weekNum: number;
 }
 
 const emptyDayResponse = 'Пар нет 😎';
 
 // tslint:disable prefer-template
-export function formatTimetableResponse({ day, classes, week }: FormatParams) {
+export function formatTimetableResponse({ day, classes, weekNum }: FormatParams) {
   let formatted = `${'='.repeat(5)} ${day} ${'='.repeat(5)}\n\n`;
 
-  if (week) {
-    formatted = `${'*'.repeat(10)} ${week} ${'*'.repeat(10)}\n` + formatted;
+  if (weekNum) {
+    formatted = `${'*'.repeat(10)} Неделя ${weekNum} ${'*'.repeat(10)}\n` + formatted;
   }
 
   if (classes.length > 0) {

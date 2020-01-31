@@ -19,7 +19,7 @@ const MONTHS = {
 };
 
 // tslint:disable max-line-length
-export function getReminderDate(text: string): DateTime {
+export function parseReminderDate(text: string): DateTime {
   const timeReg = /в ([01]?[0-9]|2[0-3]):[0-5][0-9]/gi; // hour:minute
   const timeShortReg = /в ([01]?[0-9]|2[0-3])/gi; // hour
   const dayMonthReg = /([1-9]|[12]\d|3[0-1]) (января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря)/gi;
