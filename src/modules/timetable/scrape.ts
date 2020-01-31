@@ -3,6 +3,8 @@ import { JSDOM } from 'jsdom';
 
 import { Timetable, UniversityClass } from './types';
 
+import { withCache } from './cache';
+
 async function fetchTimetableHtml(): Promise<string> {
   const response = await fetch(process.env.TIMETABLE_URL!, {
     headers: {
@@ -13,7 +15,7 @@ async function fetchTimetableHtml(): Promise<string> {
   return response.text();
 }
 
-export async function getTimetable(): Promise<Timetable> {
+async function constructTimetable(): Promise<Timetable> {
   const html = await fetchTimetableHtml();
 
   const { window: { document } } = new JSDOM(html);
@@ -41,3 +43,5 @@ export async function getTimetable(): Promise<Timetable> {
 
   return { weekNum, schedule };
 }
+
+export const getTimetable = withCache(constructTimetable);

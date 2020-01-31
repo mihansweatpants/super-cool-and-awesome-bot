@@ -2,7 +2,7 @@ import { Message } from 'node-telegram-bot-api';
 
 import bot, { reply } from '~/bot';
 
-import { getTimetable } from './scraper';
+import { getTimetable } from './scrape';
 import { formatTimetableResponse } from './format';
 import { isTimetableCallback, makeTimetableCallback, parseTimetableCallback } from './callbackQuery';
 

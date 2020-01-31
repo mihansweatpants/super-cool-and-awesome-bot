@@ -3,11 +3,7 @@ import { CallbackQuery } from 'node-telegram-bot-api';
 const CALLBACK_PREFIX = 'timetable_';
 
 export function isTimetableCallback({ data }: CallbackQuery) {
-  if (data!.includes(CALLBACK_PREFIX)) {
-    return true;
-  }
-
-  return false;
+  return data!.includes(CALLBACK_PREFIX);
 }
 
 export function makeTimetableCallback(data: string) {
