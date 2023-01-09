@@ -28,7 +28,7 @@
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "jsdom": "^15.1.1",
-    "luxon": "^1.16.0",
+    "luxon": "^2.5.2",
     "module-alias": "^2.2.0",
     "mongoose": "^5.5.14",
     "node-fetch": "^2.6.0",
